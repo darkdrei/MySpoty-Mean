@@ -47,7 +47,34 @@ function saveUser(request, response){
 
 
 function loginUser(request, response){
-  
+   var params = request.body;
+
+   var email = params.email;
+   var password = params.password;
+
+   User.findOne({email:email.toLowerCase()}, (err, user)=>{
+     if (err){
+       response.status(500).send({menssage:'Error en la peticion'});
+     }else{
+       if(!user){
+          response.status(404).send({menssage:'El usuario no existe'});
+       }else{
+         bcrypt.compare(password, user.password, function(err, check){
+           if(check){
+             //devolver los datos del usuario logueado
+             if(params.gethash){
+               //retorna el token de jwt
+             }else{
+               response.status(200).send({user});
+             }
+
+           }else{
+             response.status(404).send({menssage:'El usuario no ha podido autenticarse'});
+           }
+         })
+       }
+     }
+   })
 }
 
 module.exports = {
