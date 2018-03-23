@@ -6,7 +6,7 @@ var bcrypt = require('bcrypt-nodejs');
 function pruebas(request, response){
   response.status(200).send({
     menssage:'Probando una accion del controlador del api rest'
-  });2
+  });
 }
 
 function saveUser(request, response){
