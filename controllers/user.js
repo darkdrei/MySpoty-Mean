@@ -6,11 +6,10 @@ var bcrypt = require('bcrypt-nodejs');
 function pruebas(request, response){
   response.status(200).send({
     menssage:'Probando una accion del controlador del api rest'
-  });
+  });2
 }
 
 function saveUser(request, response){
-  console.log('esto funciona ',request.body);
   var user = new User();
   var params = request.body;
   user.name= params.name;
@@ -79,5 +78,6 @@ function loginUser(request, response){
 
 module.exports = {
   pruebas,
-  saveUser
+  saveUser,
+  loginUser
 };
