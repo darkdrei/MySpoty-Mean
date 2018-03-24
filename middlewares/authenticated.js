@@ -15,7 +15,6 @@ exports.ensureAuth = function (request, response, next) {
             return response.status(401).send({message:'Token expirado'});
         }
     }catch(ex){
-        console.log(ex);
         return response.status(404).send({message:'Token no valido'})
     }
      request.user= payload;
