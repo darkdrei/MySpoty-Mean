@@ -11,5 +11,6 @@ var md_auth = require('../middlewares/authenticated');
 api.get('/artist',md_auth.ensureAuth, ArtisControler.getArtist);
 api.post('/artist',md_auth.ensureAuth, ArtisControler.saveArtist);
 api.get('/artist/:id',md_auth.ensureAuth, ArtisControler.getArtist);
+api.get('/artists/:page?',md_auth.ensureAuth, ArtisControler.getArtists);
 
 module.exports =api;
