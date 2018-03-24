@@ -8,6 +8,7 @@ var app = express();
 
 // Cargar rutas
 var user_routes = require('./routes/user');
+var artist_routes = require('./routes/artist');
 
 
 app.use(bodyParser.urlencoded({extended:false}));
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 
 //Rutas base
 app.use('/api', user_routes); //Especie de midaware
+app.use('/api', artist_routes);
 
 /*
 app.get('/pruebas', function(request, response){
