@@ -14,6 +14,7 @@ var multipart = require('connect-multiparty');
 var md_upload = multipart({uploadDir:'./uploads/songs'});
 
 api.get('/song/:id',md_auth.ensureAuth, SongControler.getSong);
+api.get('/songs/:album?',md_auth.ensureAuth, SongControler.getSongs);
 api.post('/song',md_auth.ensureAuth, SongControler.saveSong);
 //api.get('/artist/:id',md_auth.ensureAuth, ArtisControler.getArtist);
 //api.get('/albums/:artist',md_auth.ensureAuth, AlbumControler.getAlbums);
