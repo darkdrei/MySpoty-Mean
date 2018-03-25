@@ -122,9 +122,48 @@ function deleteArtist(request, response) {
     });
 }
 
-function uploadImage(request,  response) {
-    var artis_id = request.params.id;
-    var file_name = 'No subido';
+function uploadImage(request, response) {
+    var user_id = request.params.id;
+    var file_name = 'No subida';
+    if(request.files){
+        var file_path = request.files.image.path;
+        console.log(file_path);
+        var file_split = file_path.split('/');
+        console.log(file_split[2]);
+        var file_name =file_split[2];
+        var ext_file = file_split[2].split('\.');
+        if (ext_file[1] =='png' || ext_file[1] =='jpg' || ext_file[1] =='jpeg' ||ext_file[1] =='git' ){
+            Artist.findByIdAndUpdate(user_id, {image:file_name},(err, userUpdated)=>{
+                if (err){
+                  console.log(err);
+                    response.status(500).send({menssage:'Error a el actualizar el usuario'});
+                }else{
+                    if(!userUpdated){
+                        response.status(404).send({menssage:'No se ha podido actualizar los usuarios'});
+                    }else{
+                        response.status(200).send({user:userUpdated});
+                    }
+                }
+            });
+        }else{
+            response.status(200).send({message:'E>xtensión del archivo no valido'})
+        }
+    }else{
+        response.status(200).send({message:'No ha subido una imagen'})
+    }
+}
+
+
+function getImageFile(request, response){
+    var ima_file=request.params.imageFile;
+    var path_file ='./uploads/artists/'+ima_file;
+    fs.exists(path_file, function(exists){
+        if(exists){
+            response.sendFile(path.resolve(path_file));
+        }else{
+            response.status(200).send({menssage:'No exiiste la imagen'});
+        }
+    })
 }
 
 module.exports = {
@@ -133,5 +172,6 @@ module.exports = {
     getArtists,
     updateArtist,
     deleteArtist,
-    uploadImage
+    uploadImage,
+    getImageFile
 }
