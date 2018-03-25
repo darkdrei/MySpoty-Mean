@@ -11,3 +11,10 @@ var Album = require('../models/album');
 var Song = require('../models/song');
 var mongoosePaginate = require('mongoose-pagination');
 
+function getAlbum(request, response) {
+    response.status(200).send({menssage: 'Método de getArtist controlador Album'});
+}
+
+module.exports = {
+    getAlbum
+};
