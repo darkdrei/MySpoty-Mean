@@ -113,6 +113,8 @@ function deleteArtist(request, response) {
                                 }
                             });
                         }
+
+
                     }
                 });
             }
@@ -120,10 +122,16 @@ function deleteArtist(request, response) {
     });
 }
 
+function uploadImage(request,  response) {
+    var artis_id = request.params.id;
+    var file_name = 'No subido';
+}
+
 module.exports = {
     getArtist,
     saveArtist,
     getArtists,
     updateArtist,
-    deleteArtist
+    deleteArtist,
+    uploadImage
 }
