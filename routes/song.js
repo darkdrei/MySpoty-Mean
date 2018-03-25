@@ -13,7 +13,7 @@ var md_auth = require('../middlewares/authenticated');
 var multipart = require('connect-multiparty');
 var md_upload = multipart({uploadDir:'./uploads/songs'});
 
-api.get('/song',md_auth.ensureAuth, SongControler.getSong);
+api.get('/song/:id',md_auth.ensureAuth, SongControler.getSong);
 api.post('/song',md_auth.ensureAuth, SongControler.saveSong);
 //api.get('/artist/:id',md_auth.ensureAuth, ArtisControler.getArtist);
 //api.get('/albums/:artist',md_auth.ensureAuth, AlbumControler.getAlbums);

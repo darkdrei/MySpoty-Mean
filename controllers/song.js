@@ -12,7 +12,19 @@ var mongoosePaginate = require('mongoose-pagination');
 
 
 function getSong(request, response) {
-    response.status(200).send({menssage:'Controlador de cancions'});
+    var song_id = request.params.id;
+
+    Song.findById(song_id).populate({path:'album'}).exec((err, song)=>{
+        if(err){
+            response.status(500).send({menssage:'Error en la peticion'});
+        }else{
+            if(!song){
+                response.status(500).send({menssage:'Song no actualizado'});
+            }else{
+                response.status(200).send({song:song});
+            }
+        }
+    });
 }
 
 function saveSong(request, response) {
@@ -36,6 +48,8 @@ function saveSong(request, response) {
 
     });
 }
+
+
 
 
 module.exports={
