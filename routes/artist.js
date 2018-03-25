@@ -13,5 +13,6 @@ api.post('/artist',md_auth.ensureAuth, ArtisControler.saveArtist);
 api.get('/artist/:id',md_auth.ensureAuth, ArtisControler.getArtist);
 api.get('/artists/:page?',md_auth.ensureAuth, ArtisControler.getArtists);
 api.put('/artist/:id',md_auth.ensureAuth, ArtisControler.updateArtist);
+api.delete('/artist/:id',md_auth.ensureAuth, ArtisControler.deleteArtist);
 
 module.exports =api;
