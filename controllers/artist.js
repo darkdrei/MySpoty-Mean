@@ -51,15 +51,15 @@ function updateArtist(request, response) {
     var artista_id = request.params.id;
     var update=request.body;
     Artist.findByIdAndUpdate(artista_id, update,(err, artis_update)=>{
-       if(err){
-           response.status(404).send({message: 'Error a el actualizar el artista'});
-       } else{
-           if(!artis_update){
-               response.status(404).send({message: 'No existe el artista'});
-           }else{
-               response.status(404).send({message: artis_update});
-           }
-       }
+        if(err){
+            response.status(404).send({message: 'Error a el actualizar el artista'});
+        } else{
+            if(!artis_update){
+                response.status(404).send({message: 'No existe el artista'});
+            }else{
+                response.status(404).send({message: artis_update});
+            }
+        }
     });
 }
 
@@ -71,15 +71,15 @@ function saveArtist(request, response) {
     artist.description = params.description;
     artist.image = 'null';
     artist.save((err, artistStored)=>{
-       if(err){
-           response.status(500).send({menssage:'Erros a el guardar el artista'});
-       }else{
-           if(!artistStored){
-               response.status(404).send({menssage: 'Artista no guardado.'})
-           }else{
-               response.status(200).send({message: artistStored});
-           }
-       }
+        if(err){
+            response.status(500).send({menssage:'Erros a el guardar el artista'});
+        }else{
+            if(!artistStored){
+                response.status(404).send({menssage: 'Artista no guardado.'})
+            }else{
+                response.status(200).send({message: artistStored});
+            }
+        }
 
     });
 }
@@ -88,15 +88,35 @@ function deleteArtist(request, response) {
     var artist_id = request.params.id;
 
     Artist.findByIdAndRemove(artist_id, (err, artis_delete)=>{
-       if(err){
-           response.status(500).send({message:'Error a el eliminar el artista'});
-       }else{
-           if(!artis_delete){
-               response.status(404).send({message:'Error a el elminar el artista.'});
-           }else{
-               response.status(200).send({artists:artis_delete})
-           }
-       }
+        if(err){
+            response.status(500).send({message:'Error a el eliminar el artista'});
+        }else{
+            if(!artis_delete){
+                response.status(404).send({message:'Error a el elminar el artista.'});
+            }else{
+                Album.find({artist:artis_delete._id}).remove((err, albun_remove)=>{
+                    if(err){
+                        response.status(500).send({menssage:'Error a el eliminar el album'});
+                    }else{
+                        if(!albun_remove){
+                            response.status(500).send({menssage:'Error a el eliminar el album'});
+                        }else{
+                            Song.find({album:albun_remove._id}).remove((err, albun_remove)=>{
+                                if(err){
+                                    response.status(404).send({menssage:'Error a el eliminar la cancion.'});
+                                }else{
+                                    if(!albun_remove){
+                                        response.status(500).send({menssage:'El albun no ha sido eliminado'});
+                                    }else{
+                                        response.status(200).send({menssage:artis_delete})
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
     });
 }
 
