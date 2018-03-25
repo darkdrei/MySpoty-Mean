@@ -40,12 +40,29 @@ function getArtists(request, response) {
             if(!artists){
                 response.status(404).send({message:'No hay artistas.'});
             }else{
-                return response.status(200).send({pages:total, artists:artists});
+                return response.status(200).send({total_item:total, artists:artists});
             }
         }
     });
 
 }
+
+function updateArtist(request, response) {
+    var artista_id = request.params.id;
+    var update=request.body;
+    Artist.findByIdAndUpdate(artista_id, update,(err, artis_update)=>{
+       if(err){
+           response.status(404).send({message: 'Error a el actualizar el artista'});
+       } else{
+           if(!artis_update){
+               response.status(404).send({message: 'No existe el artista'});
+           }else{
+               response.status(404).send({message: artis_update});
+           }
+       }
+    });
+}
+
 
 function saveArtist(request, response) {
     var artist = new Artist();
@@ -70,5 +87,6 @@ function saveArtist(request, response) {
 module.exports = {
     getArtist,
     saveArtist,
-    getArtists
+    getArtists,
+    updateArtist
 }
