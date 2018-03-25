@@ -47,6 +47,23 @@ function getSongs(request, response) {
     });
 }
 
+function updateSong(request, response) {
+    var song_id = request.params.id;
+    var update = request.body;
+
+    Song.findByIdAndUpdate(song_id, update, (err, songUpdate)=>{
+        if(err){
+            response.status(500).send({menssage:'Error en la peticion'});
+        }else{
+            if(!songUpdate){
+                response.status(500).send({menssage:'no hay Song'});
+            }else{
+                response.status(200).send({song:songUpdate});
+            }
+        }
+    });
+}
+
 function saveSong(request, response) {
     var song = new Song();
     var params = request.body;
@@ -75,5 +92,6 @@ function saveSong(request, response) {
 module.exports={
     getSong,
     saveSong,
-    getSongs
+    getSongs,
+    updateSong
 };
