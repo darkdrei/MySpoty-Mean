@@ -8,7 +8,7 @@ var AlbumControler = require('../controllers/album');
 var api = express.Router();
 var md_auth = require('../middlewares/authenticated');
 var multipart = require('connect-multiparty');
-var md_upload = multipart({uploadDir:'./uploads/artists'});
+var md_upload = multipart({uploadDir:'./uploads/albums'});
 
 api.get('/album',md_auth.ensureAuth, AlbumControler.getAlbum);
 //api.post('/artist',md_auth.ensureAuth, ArtisControler.saveArtist);
