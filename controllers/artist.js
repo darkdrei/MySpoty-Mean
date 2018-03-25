@@ -84,9 +84,26 @@ function saveArtist(request, response) {
     });
 }
 
+function deleteArtist(request, response) {
+    var artist_id = request.params.id;
+
+    Artist.findByIdAndRemove(artist_id, (err, artis_delete)=>{
+       if(err){
+           response.status(500).send({message:'Error a el eliminar el artista'});
+       }else{
+           if(!artis_delete){
+               response.status(404).send({message:'Error a el elminar el artista.'});
+           }else{
+               response.status(200).send({artists:artis_delete})
+           }
+       }
+    });
+}
+
 module.exports = {
     getArtist,
     saveArtist,
     getArtists,
-    updateArtist
+    updateArtist,
+    deleteArtist
 }
