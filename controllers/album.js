@@ -93,6 +93,50 @@ function deleteAlbum(request, response) {
 }
 
 
+function uploadImage(request, response) {
+    var album_id = request.params.id;
+    var file_name = 'No subida';
+    console.log(request.files);
+    if(request.files){
+        var file_path = request.files.image.path;
+        console.log(file_path);
+        var file_split = file_path.split('/');
+        console.log(file_split[2]);
+        var file_name =file_split[2];
+        var ext_file = file_split[2].split('\.');
+        if (ext_file[1] =='png' || ext_file[1] =='jpg' || ext_file[1] =='jpeg' ||ext_file[1] =='git' ){
+            Album.findByIdAndUpdate(album_id, {image:file_name},(err, albumUpdated)=>{
+                if (err){
+                    response.status(500).send({menssage:'Error a el actualizar el album'});
+                }else{
+                    if(!albumUpdated){
+                        response.status(404).send({menssage:'No se ha podido actualizar el album'});
+                    }else{
+                        response.status(200).send({user:albumUpdated});
+                    }
+                }
+            });
+        }else{
+            response.status(200).send({message:'E>xtensión del archivo no valido'})
+        }
+    }else{
+        response.status(200).send({message:'No ha subido una imagen'})
+    }
+}
+
+
+function getImageFile(request, response){
+    var ima_file=request.params.imageFile;
+    var path_file ='./uploads/albums/'+ima_file;
+    fs.exists(path_file, function(exists){
+        if(exists){
+            response.sendFile(path.resolve(path_file));
+        }else{
+            response.status(200).send({menssage:'No exiiste la imagen'});
+        }
+    })
+}
+
 
 function saveAlbum(request, response) {
     var album = new Album();
@@ -121,5 +165,7 @@ module.exports = {
     saveAlbum,
     getAlbums,
     updateAlbum,
-    deleteAlbum
+    deleteAlbum,
+    uploadImage,
+    getImageFile
 };
