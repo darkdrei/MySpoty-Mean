@@ -101,7 +101,49 @@ function saveSong(request, response) {
     });
 }
 
+function uploadFile(request, response) {
+    var album_id = request.params.id;
+    var file_name = 'No subida';
+    console.log(request.files);
+    if(request.files){
+        var file_path = request.files.file.path;
+        console.log(file_path);
+        var file_split = file_path.split('/');
+        console.log(file_split[2]);
+        var file_name =file_split[2];
+        var ext_file = file_split[2].split('\.');
+        if (ext_file[1] =='mp3' || ext_file[1] =='ogg' || ext_file[1] =='mp4' ||ext_file[1] =='avi' ){
+            Song.findByIdAndUpdate(album_id, {file:file_name},(err, songUpdated)=>{
+                if (err){
+                    response.status(500).send({menssage:'Error a el actualizar el song'});
+                }else{
+                    if(!songUpdated){
+                        response.status(404).send({menssage:'No se ha podido actualizar el song'});
+                    }else{
+                        response.status(200).send({user:songUpdated});
+                    }
+                }
+            });
+        }else{
+            response.status(200).send({message:'E>xtensión del archivo no valido'})
+        }
+    }else{
+        response.status(200).send({message:'No ha subido una imagen'})
+    }
+}
 
+
+function getSongFile(request, response){
+    var ima_file=request.params.songFile;
+    var path_file ='./uploads/songs/'+ima_file;
+    fs.exists(path_file, function(exists){
+        if(exists){
+            response.sendFile(path.resolve(path_file));
+        }else{
+            response.status(200).send({menssage:'No exiiste la cancion'});
+        }
+    })
+}
 
 
 module.exports={
@@ -109,5 +151,7 @@ module.exports={
     saveSong,
     getSongs,
     updateSong,
-    deleteSong
+    deleteSong,
+    getSongFile,
+    uploadFile
 };

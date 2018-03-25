@@ -20,8 +20,8 @@ api.post('/song',md_auth.ensureAuth, SongControler.saveSong);
 //api.get('/albums/:artist',md_auth.ensureAuth, AlbumControler.getAlbums);
 api.put('/song/:id',md_auth.ensureAuth, SongControler.updateSong);
 api.delete('/song/:id',md_auth.ensureAuth, SongControler.deleteSong);
-//api.post('/upload-image-album/:id',[md_auth.ensureAuth, md_upload], AlbumControler.uploadImage);
-//api.get('/get-image-album/:imageFile', AlbumControler.getImageFile);
+api.post('/upload-image-song/:id',[md_auth.ensureAuth, md_upload], SongControler.uploadFile);
+api.get('/get-image-song/:songFile', SongControler.getSongFile);
 
 
 module.exports =api;
