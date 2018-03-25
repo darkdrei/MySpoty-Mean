@@ -47,6 +47,21 @@ function getSongs(request, response) {
     });
 }
 
+function deleteSong(request, response) {
+    var song_id =request.params.id;
+    Song.findByIdAndRemove(song_id, (err, songRemove)=>{
+         if(err){
+            response.status(500).send({menssage:'Error en la peticion'});
+        }else{
+            if(!songRemove){
+                response.status(500).send({menssage:'no hay canciones'});
+            }else{
+                response.status(200).send({song:songRemove});
+            }
+        }
+    });
+}
+
 function updateSong(request, response) {
     var song_id = request.params.id;
     var update = request.body;
@@ -93,5 +108,6 @@ module.exports={
     getSong,
     saveSong,
     getSongs,
-    updateSong
+    updateSong,
+    deleteSong
 };
