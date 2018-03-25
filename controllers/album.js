@@ -51,16 +51,45 @@ function updateAlbum(request, response) {
     var album_id = request.params.id;
     var update=request.body;
     Album.findByIdAndUpdate(album_id, update,(err, album_update)=>{
+        console.log(err);
         if(err){
             response.status(404).send({message: 'Error a el actualizar el artista'});
         } else{
             if(!album_update){
-                response.status(404).send({message: 'No existe el artista'});
+                response.status(404).send({message: 'No existe el Album'});
             }else{
-                response.status(404).send({message: artis_update});
+                response.status(404).send({message: album_update});
             }
         }
     });
+}
+
+function deleteAlbum(request, response) {
+    var artist_id = request.params.id;
+    Album.findByIdAndRemove(artist_id, (err, albun_remove)=>{
+        if(err){
+            response.status(500).send({menssage:'Error a el eliminar el album'});
+        }else{
+            if(!albun_remove){
+                response.status(500).send({menssage:'Error a el eliminar el album'});
+            }else{
+                Song.find({album:albun_remove._id}).remove((err, albun_remove)=>{
+                    if(err){
+                        response.status(404).send({menssage:'Error a el eliminar la cancion.'});
+                    }else{
+                        if(!albun_remove){
+                            response.status(500).send({menssage:'El albun no ha sido eliminado'});
+                        }else{
+                            response.status(200).send({menssage:albun_remove})
+                        }
+                    }
+                });
+            }
+
+
+        }
+    });
+
 }
 
 
@@ -87,11 +116,10 @@ function saveAlbum(request, response) {
     });
 }
 
-
-
 module.exports = {
     getAlbum,
     saveAlbum,
     getAlbums,
-    updateAlbum
+    updateAlbum,
+    deleteAlbum
 };
