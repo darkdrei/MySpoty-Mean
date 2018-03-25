@@ -17,7 +17,7 @@ api.get('/artists/:page?',md_auth.ensureAuth, ArtisControler.getArtists);
 api.put('/artist/:id',md_auth.ensureAuth, ArtisControler.updateArtist);
 api.delete('/artist/:id',md_auth.ensureAuth, ArtisControler.deleteArtist);
 api.post('/upload-image-artist/:id',[md_auth.ensureAuth, md_upload], ArtisControler.uploadImage);
-api.get('/get-image-artist/:imageFile', user_controller.getImageFile);
+api.get('/get-image-artist/:imageFile', ArtisControler.getImageFile);
 
 
 module.exports =api;
