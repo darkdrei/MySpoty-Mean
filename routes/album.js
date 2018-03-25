@@ -14,8 +14,8 @@ api.get('/album/:id',md_auth.ensureAuth, AlbumControler.getAlbum);
 api.post('/album',md_auth.ensureAuth, AlbumControler.saveAlbum);
 //api.get('/artist/:id',md_auth.ensureAuth, ArtisControler.getArtist);
 api.get('/albums/:artist',md_auth.ensureAuth, AlbumControler.getAlbums);
-//api.put('/artist/:id',md_auth.ensureAuth, ArtisControler.updateArtist);
-//api.delete('/artist/:id',md_auth.ensureAuth, ArtisControler.deleteArtist);
+api.put('/album/:id',md_auth.ensureAuth, AlbumControler.updateAlbum);
+api.delete('/album/:id',md_auth.ensureAuth, AlbumControler.deleteAlbum);
 //api.post('/upload-image-artist/:id',[md_auth.ensureAuth, md_upload], ArtisControler.uploadImage);
 //api.get('/get-image-artist/:imageFile', ArtisControler.getImageFile);
 
